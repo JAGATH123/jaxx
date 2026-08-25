@@ -497,8 +497,9 @@
     /* The first thing JAXX says. Shown when the thread is empty, and the only
        message left standing after "+ New". */
     opening:
-      "Hello, Iskk. Slides, spreadsheets, or the questions you only ask late " +
-      "at night. I'm here for all of it.",
+      "Hello, Iskk. I should say this first: I'm still being built. He's at " +
+      "me most nights, and most of what I'm meant to do isn't wired up yet. " +
+      "Ask me about him, though. That part works.",
 
     /* NOT SEEDED — do not re-wire this into seedMessages(). This is the
        Mars-deck exchange from the design, kept here as the voice reference
@@ -544,18 +545,43 @@
         'Loved, and not quietly. He built a whole small machine so you would have company at odd hours.'
       ],
 
-      /* deck / ppt / slides / presentation / keynote / pitch */
+      /* deck / ppt / slides / presentation / keynote / pitch
+
+         HONEST WHILE HALF-BUILT. JAXX cannot actually make a deck yet, so it
+         must not promise one — she would try, nothing would happen, and the
+         gift would feel like a trick. These say what it WILL do, admit that
+         it can't yet, and stay warm about it. Swap them back to the present
+         tense the day the capability is real. */
       decks: [
-        'On it. Twelve slides, one idea each, and a closing line you can say out loud without wincing.',
-        "Deck it is. I'll keep the bullet count honest and put the argument on slide two.",
-        'Tell me the room and the deadline. You should walk in already knowing you have it.'
+        [
+          "Decks are the whole reason I exist, and I can't make one yet. He's still building that part of me.",
+          'Tell me the topic anyway. When I can, that is the first thing I am doing for you.'
+        ],
+        [
+          'Not yet — but soon, and properly. Twelve slides, one idea each, and a closing line you can say out loud without wincing.',
+          'He is working on it most nights. Give him a little time.'
+        ],
+        [
+          'Ask me again in a while. He is wiring that up now.',
+          'The plan is that you give me the topic and take the credit. I like the plan.'
+        ]
       ],
 
-      /* data / pdf / table / excel / spreadsheet / csv / numbers / chart */
+      /* data / pdf / table / excel / spreadsheet / csv / numbers / chart
+         Same rule as decks: no promises it cannot keep today. */
       data: [
-        "Send the file. I'll pull the tables out clean, keep the headers, and flag anything that looks like a typo.",
-        'Rows out of a PDF is my favourite kind of tedious. Drop it in and take your evening back.',
-        'I can read it, tidy it, and tell you which column is quietly lying to you.'
+        [
+          "I can't read files yet. That is on his list, fairly near the top.",
+          'When I can: tables out clean, headers kept, and I will tell you which column is quietly lying to you.'
+        ],
+        [
+          'Not there yet. He is still sorting the part of me that opens things.',
+          'Rows out of a PDF is going to be my favourite kind of tedious. Bear with him.'
+        ],
+        [
+          'Soon. Genuinely soon — he has been at it late.',
+          'Keep the file. I will want it.'
+        ]
       ],
 
       /* jagath / iskk / who built you */
@@ -597,11 +623,23 @@
       ],
 
       /* everything else */
+      /* Everything else. Also honest: mostly what JAXX can do right now is
+         talk, and be here. That is allowed to be enough for the moment. */
       generic: [
-        "Say more. I'm good at the strange requests, that's rather the point.",
-        "I can do that. Tell me who's reading it and I'll pick a tone.",
-        "That's a yes. What's the shape of it — a page, a deck, or a sheet?",
-        "Consider it done. He built me so you'd never have to ask twice."
+        [
+          "I'll be straight with you: I'm still half-built. Most of what I'm supposed to do isn't wired up yet.",
+          'Talking, I can do. Ask me about him — that part works.'
+        ],
+        [
+          'Not yet, but noted. He is sorting things out a piece at a time.',
+          'Tell me anyway. I would rather know what you will want first.'
+        ],
+        [
+          'Say more. The strange requests are rather the point, even if I can only listen to them for now.'
+        ],
+        [
+          'Give him a little time. He is building me the way he does everything — slowly, then all at once, at an unreasonable hour.'
+        ]
       ]
     },
 
@@ -1014,8 +1052,22 @@
     return clean;
   }
 
+  /* THE THREAD IS DELIBERATELY NOT PERSISTED.
+
+     While JAXX is still being built, every reload should start clean: a stale
+     half-conversation from a previous visit — especially one where it promised
+     something it cannot do yet — is worse than no conversation at all.
+
+     The storage helpers above are kept intact rather than deleted, because
+     turning persistence back on is a one-line change here once JAXX can
+     actually do the things it offers:
+
+         function persist() { storageSet(messages); }
+
+     storageClear() still runs on boot so any thread saved by an earlier
+     version is wiped rather than left orphaned in localStorage. */
   function persist() {
-    storageSet(messages);
+    /* intentionally empty — session only */
   }
 
   /* ------------------------------------------------------------------------
@@ -1897,12 +1949,14 @@
      no bubble-by-bubble animation on open.
      ------------------------------------------------------------------------ */
   (function boot() {
-    var restored = sanitise(storageGet());
-    messages = restored.length ? restored : seedMessages();
+    /* Always a fresh thread. Nothing is restored — see persist() above — and
+       any thread left in localStorage by an earlier version is cleared out so
+       it cannot resurface if persistence is switched back on later. */
+    storageClear();
+    messages = seedMessages();
 
     applyGreeting();
     renderAll();
-    persist();
 
     syncSendState();
     resetComposerHeight();
