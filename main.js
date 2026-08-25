@@ -559,11 +559,41 @@
       ],
 
       /* jagath / iskk / who built you */
+      /* jagath / who built you / tell me about him …
+
+         Each entry here is a SEQUENCE: an array is delivered as several
+         bubbles with typing between them, so asking about him feels like
+         being told something rather than handed a fact. Ask again and you get
+         the next one — the pool cycles.
+
+         ┌─────────────────────────────────────────────────────────────────┐
+         │ EVERYTHING BELOW IS TRUE TO WHAT THE SITE ALREADY SAYS: he built │
+         │ this in one evening, he stays up late, he rewrites his own copy.  │
+         │ No biographical facts have been invented. To make this REALLY    │
+         │ about him — where he's from, what he does, the small habits she   │
+         │ would recognise — add them here. That is the one thing only he    │
+         │ can write.                                                       │
+         └─────────────────────────────────────────────────────────────────┘ */
       jagath: [
-        'Jagath built me. He built me for you, which is the only part of the brief he cared about.',
-        'He designs the thing, builds the thing, then rewrites the copy at midnight so it sounds like it was easy.',
-        'My favourite subject. He talks about you the way other people talk about weather they have been waiting for.',
-        "He'd never tell you how long this took. It took a while. He liked every hour of it."
+        [
+          "My favourite subject. Fair warning: I'm not neutral about him.",
+          'He built me in one evening. Not because it was easy — because he had decided you were going to have it, and then it was just a question of staying awake.',
+          'He talks about you the way other people talk about weather they have been waiting for.'
+        ],
+        [
+          "He designs the thing, builds the thing, then rewrites the copy at midnight because it doesn't sound right yet.",
+          'He did that to my sentences too. Several times. Everything I say to you was worried over by someone.',
+          "He'd never mention that. So I will."
+        ],
+        [
+          "He isn't very good at saying things out loud. You may have noticed.",
+          'So he makes things instead. This is what that looks like when it is aimed at one person.',
+          'If you want the version in his own words, the heart at the top of this screen has a note in it.'
+        ],
+        [
+          "He'd never tell you how long this took. It took a while.",
+          'He liked every hour of it. I was there.'
+        ]
       ],
 
       /* everything else */
@@ -599,7 +629,19 @@
         'cry', 'upset', 'anxious', 'burnt out', 'burned out'
       ]
     },
-    { pool: 'jagath', words: ['jagath', 'iskk', 'who built you', 'who made you', 'about you'] },
+    /* startsWord() anchors the START of a word but not its end, so short
+       fragments over-match: 'his' would fire on "history", 'he' on "hello".
+       Everything below is either a full phrase or a word with no common
+       longer relative ('him' only reaches "himself", which is fine). */
+    { pool: 'jagath', words: [
+      'jagath', 'iskk',
+      'tell me about him', 'about him', 'more about him',
+      'who is he', "who's he", 'whos he',
+      'what is he', "what's he", 'whats he', 'what he',
+      'who built you', 'who made you', 'who built', 'who made',
+      'about you', 'about the guy', 'your maker', 'your creator',
+      'him'
+    ] },
     { pool: 'decks', words: ['deck', 'ppt', 'slide', 'presentation', 'powerpoint', 'keynote', 'pitch'] },
     { pool: 'data', words: ['data', 'pdf', 'table', 'excel', 'spreadsheet', 'csv', 'sheet', 'chart', 'numbers'] }
   ];
@@ -677,6 +719,11 @@
      2. Helpers
      ------------------------------------------------------------------------ */
   var doc = document;
+
+  /* ES5-safe array test; a reply pool entry may be a string or a sequence. */
+  function isArray(value) {
+    return Object.prototype.toString.call(value) === '[object Array]';
+  }
 
   function qs(selector, root) {
     if (!selector) return null;
@@ -1234,16 +1281,45 @@
       syncSendState();
     }
 
-    var reply = nextReply(text);
+    deliverReply(nextReply(text));
+  }
+
+  /* A pool entry may be a single string OR an array of strings. An array is
+     delivered as a SEQUENCE — typing, bubble, typing, bubble — so JAXX can
+     actually talk for a moment instead of answering everything in one
+     paragraph. This is what makes "tell me about Jagath" feel like being told
+     something rather than being handed a fact.
+
+     Guarded so a mid-sequence close, "+ New" or a new message cancels the
+     rest cleanly: every step re-checks that it still owns replyTimer. */
+  function deliverReply(reply) {
+    var parts = isArray(reply) ? reply.slice() : [reply];
 
     if (replyTimer) window.clearTimeout(replyTimer);
-    showTyping();
 
-    replyTimer = window.setTimeout(function () {
-      replyTimer = null;
-      hideTyping();
-      pushMessage('jaxx', reply);
-    }, typingDelay(reply));
+    function step() {
+      if (!parts.length) {
+        replyTimer = null;
+        return;
+      }
+
+      var part = String(parts.shift());
+      showTyping();
+
+      replyTimer = window.setTimeout(function () {
+        hideTyping();
+        pushMessage('jaxx', part);
+
+        if (parts.length) {
+          /* a short beat between bubbles, as if drawing breath */
+          replyTimer = window.setTimeout(step, prefersReducedMotion() ? 120 : 420);
+        } else {
+          replyTimer = null;
+        }
+      }, typingDelay(part));
+    }
+
+    step();
   }
 
   /* "+ New" — back to the greeting and the opening line, and wipe the stored

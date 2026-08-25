@@ -2501,6 +2501,29 @@ html:not(.js) .askbar { display: none; }
 }
 
 
+/* --------------------------------------------------------------------------
+   The heart's invitation
+   Three slow beats shortly after the chat opens, then it rests. She should
+   notice there is something to tap without the header pulsing at her forever.
+   Integrator addition (v2.1).
+   -------------------------------------------------------------------------- */
+@keyframes chat-heart-beat {
+  0%, 100% { transform: scale(1); }
+  8%       { transform: scale(1.14); }
+  16%      { transform: scale(1); }
+  24%      { transform: scale(1.09); }
+  32%      { transform: scale(1); }
+}
+
+.chat.is-open .chat__heart .chat__icon {
+  animation: chat-heart-beat 2.6s var(--ease) 1.1s 3 both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat.is-open .chat__heart .chat__icon { animation: none; }
+}
+
+
 /* ==========================================================================
    JAXX — reveal.css
    Scroll reveal + print. Integrator-owned.
