@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- Marks the document as script-capable. Everything that *depends* on JS
+       (the mobile drawer, the hamburger, the chat overlay) is gated on .js,
+       so with scripting off the nav degrades to a plain in-flow row instead
+       of a dead button. -->
+  <script>document.documentElement.classList.add('js');</script>
+
+  <title>JAXX — for Iskk</title>
+  <meta name="description" content="JAXX is a tiny personal AI that Jagath built just for Iskk — for slides, spreadsheets, and questions big, small, and slightly strange.">
+  <meta name="author" content="Jagath">
+  <meta name="theme-color" content="#F6F4F6">
+  <meta name="color-scheme" content="light">
+
+  <!-- link previews -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JAXX — for Iskk">
+  <meta property="og:description" content="A tiny personal AI, built in one evening, for exactly one person. Hello, Iskk. Consider it done.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="JAXX">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="JAXX — for Iskk">
+  <meta name="twitter:description" content="A tiny personal AI, built in one evening, for exactly one person. Hello, Iskk. Consider it done.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- the lilac hero sphere is the LCP element -->
+  <link rel="preload" as="image" href="assets/spheres/img1.webp" type="image/webp" fetchpriority="high">
+
+  <link rel="stylesheet" href="styles.css">
+  <script src="main.js" defer></script>
+</head>
+<body>
+
+  <!-- woven paper texture, painted by main.js; decorative only -->
+  <canvas class="weave" aria-hidden="true"></canvas>
+
+  <a class="skip-link" href="#top">Skip to content</a>
+
+  <header class="site-header" id="site-header">
+    <div class="wrap site-header__inner">
+      <a class="site-header__logo" href="#top">JAXX<span class="site-header__dot" aria-hidden="true">.</span></a>
+
+      <button
+        class="site-header__toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-menu"
+        aria-label="Open menu"
+      >
+        <span class="site-header__bars" aria-hidden="true"></span>
+      </button>
+
+      <nav class="site-nav" id="site-menu" aria-label="Primary">
+        <ul class="site-nav__list" role="list">
+          <li class="site-nav__item"><a class="site-nav__link" href="#about">About</a></li>
+          <li class="site-nav__item"><a class="site-nav__link" href="#ask">Ask Anything</a></li>
+          <li class="site-nav__item"><a class="site-nav__link" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <a class="pill pill--primary pill--sm site-header__cta" href="#ask" data-chat-open>Start chatting<span class="pill__arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ================================================================== HERO -->
+    <section id="top" class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero__inner">
+
+        <div class="hero__copy">
+          <p class="hero__eyebrow">Personal AI &middot; for Iskk</p>
+
+          <h1 class="hero__title" id="hero-title">
+            <span class="hero__line">Hello, Iskk.</span>
+            <span class="hero__line">Consider it</span>
+            <span class="hero__line">done.</span>
+          </h1>
+
+          <p class="hero__lede">JAXX is a tiny personal AI that Jagath built just for you &mdash; for slides, spreadsheets, and questions big, small, and slightly strange. Mostly, he built it so you&rsquo;d never have to wait.</p>
+
+          <div class="hero__actions">
+            <a class="pill pill--primary pill--block" href="#ask" data-chat-open>Ask JAXX anything<span class="pill__arrow" aria-hidden="true">&rarr;</span></a>
+            <a class="pill pill--ghost" href="#about">Meet your assistant</a>
+          </div>
+        </div>
+
+        <div class="hero__art" aria-hidden="true">
+          <picture class="hero__sphere hero__sphere--shadow">
+            <source type="image/webp" srcset="assets/spheres/img0.webp">
+            <img src="assets/spheres/img0.png" alt="" width="1177" height="262" decoding="async">
+          </picture>
+          <picture class="hero__sphere hero__sphere--lilac">
+            <source type="image/webp" srcset="assets/spheres/img1.webp">
+            <img src="assets/spheres/img1.png" alt="" width="1873" height="2166" fetchpriority="high" decoding="async">
+          </picture>
+          <picture class="hero__sphere hero__sphere--peri">
+            <source type="image/webp" srcset="assets/spheres/img2.webp">
+            <img src="assets/spheres/img2.png" alt="" width="1530" height="1535" decoding="async">
+          </picture>
+          <picture class="hero__sphere hero__sphere--coral">
+            <source type="image/webp" srcset="assets/spheres/img3.webp">
+            <img src="assets/spheres/img3.png" alt="" width="1085" height="1089" decoding="async">
+          </picture>
+          <picture class="hero__sphere hero__sphere--pink">
+            <source type="image/webp" srcset="assets/spheres/img4.webp">
+            <img src="assets/spheres/img4.png" alt="" width="697" height="700" decoding="async">
+          </picture>
+          <picture class="hero__sphere hero__sphere--blue">
+            <source type="image/webp" srcset="assets/spheres/img5.webp">
+            <img src="assets/spheres/img5.png" alt="" width="779" height="833" decoding="async">
+          </picture>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================= WHAT YOU CAN ASK -->
+    <section id="ask" class="ask reveal" aria-labelledby="ask-title">
+      <div class="wrap ask__inner">
+
+        <div class="ask__head">
+          <h2 class="ask__eyebrow" id="ask-title">What you can ask</h2>
+          <span class="ask__rule" aria-hidden="true"></span>
+        </div>
+
+        <ul class="ask__grid" role="list">
+
+          <li class="card card--lilac">
+            <picture class="card__art" aria-hidden="true">
+              <source type="image/webp" srcset="assets/spheres/img1.webp">
+              <img src="assets/spheres/img1.png" alt="" width="1873" height="2166" loading="lazy" decoding="async">
+            </picture>
+            <h3 class="card__title">Make a PPT</h3>
+            <p class="card__body">Deck due tomorrow? Give me the topic, take the credit.</p>
+          </li>
+
+          <li class="card card--peri">
+            <picture class="card__art" aria-hidden="true">
+              <source type="image/webp" srcset="assets/spheres/img2.webp">
+              <img src="assets/spheres/img2.png" alt="" width="1530" height="1535" loading="lazy" decoding="async">
+            </picture>
+            <h3 class="card__title">Extract data</h3>
+            <p class="card__body">PDFs, tables, screenshots &mdash; I&rsquo;ll pull out what matters.</p>
+          </li>
+
+          <li class="card card--coral">
+            <picture class="card__art" aria-hidden="true">
+              <source type="image/webp" srcset="assets/spheres/img3.webp">
+              <img src="assets/spheres/img3.png" alt="" width="1085" height="1089" loading="lazy" decoding="async">
+            </picture>
+            <h3 class="card__title">Ask me anything</h3>
+            <p class="card__body">Serious, silly, or <span class="nb">2am-strange</span>. All fair game.</p>
+          </li>
+
+          <li class="card card--ice">
+            <picture class="card__art" aria-hidden="true">
+              <source type="image/webp" srcset="assets/spheres/img5.webp">
+              <img src="assets/spheres/img5.png" alt="" width="779" height="833" loading="lazy" decoding="async">
+            </picture>
+            <h3 class="card__title">Know Jagath better</h3>
+            <p class="card__body">The authorized biography &mdash; footnotes included.</p>
+          </li>
+
+        </ul>
+
+      </div>
+    </section>
+
+    <!-- ============================================================== PULL QUOTE -->
+    <section class="quote reveal" aria-label="A note from JAXX">
+      <figure class="wrap quote__inner">
+
+        <span class="quote__mark" aria-hidden="true">&rdquo;</span>
+
+        <blockquote class="quote__text">
+          <p>I was built in one evening, for exactly one person. Which makes you, officially, my favorite user.</p>
+        </blockquote>
+
+        <figcaption class="quote__attrib">&mdash; JAXX, your assistant</figcaption>
+
+      </figure>
+    </section>
+
+    <!-- =================================================================== ABOUT -->
+    <section id="about" class="about reveal" aria-labelledby="about-title">
+      <div class="wrap about__inner">
+
+        <p class="about__eyebrow"><span>Meet your assistant</span></p>
+
+        <div class="about__grid">
+
+          <h2 class="about__title" id="about-title">
+            I&rsquo;m JAXX.<br>Nice to meet you.
+          </h2>
+
+          <div class="about__copy">
+            <p>There was no plan behind me. Jagath had a brief roughly the length of a text message &mdash; make something genuinely useful for Iskk &mdash; and then stayed up a good deal later than he meant to.</p>
+            <p>So I don&rsquo;t have a roadmap, a waiting list, or opinions about quarterly anything. I have one job, and you&rsquo;re it. Ask me for a deck at midnight and I won&rsquo;t sigh &mdash; partly because I have no lungs, mostly because he made me for exactly this.</p>
+          </div>
+
+        </div>
+
+        <dl class="about__facts">
+          <div class="about__fact">
+            <dt class="about__fact-label">Built in</dt>
+            <dd class="about__fact-value">Between dinner and 3am</dd>
+          </div>
+          <div class="about__fact">
+            <dt class="about__fact-label">Made for</dt>
+            <dd class="about__fact-value">Iskk. Only ever Iskk.</dd>
+          </div>
+          <div class="about__fact">
+            <dt class="about__fact-label">Good at</dt>
+            <dd class="about__fact-value">Decks, tables, tangents</dd>
+          </div>
+        </dl>
+
+      </div>
+    </section>
+
+    <!-- ================================================================= CONTACT -->
+    <section id="contact" class="contact reveal" aria-labelledby="contact-title">
+      <div class="wrap contact__inner">
+
+        <p class="contact__eyebrow"><span>Contact</span></p>
+
+        <h2 class="contact__title" id="contact-title">Need the human?</h2>
+
+        <p class="contact__copy">Decks, spreadsheets and 2am questions are mine. The rest &mdash; the things worth hearing in his own voice &mdash; are his. He&rsquo;s one message away, and he answers you faster than he answers anyone. He always has.</p>
+
+        <!-- TODO: set real contact link before deploy (WhatsApp https://wa.me/… or mailto:) -->
+        <a class="pill pill--primary contact__btn" href="#" data-contact-placeholder>Message Jagath<span class="pill__arrow" aria-hidden="true">&rarr;</span></a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <p class="site-footer__note">Made with love, for Iskk. Always.</p>
+      <p class="site-footer__mark">JAXX &middot; 2026</p>
+    </div>
+  </footer>
+
+  <!-- ============================================================ PINNED ASK BAR -->
+  <!-- Phone only. A button, not an input: tapping it opens the real composer. -->
+  <button class="askbar" type="button" data-chat-open data-chat-seed aria-controls="chat" aria-label="Ask JAXX anything — open the chat">
+    <span class="askbar__text">Ask JAXX anything&hellip;</span>
+    <span class="askbar__send" aria-hidden="true">
+      <svg class="askbar__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+        <path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+  </button>
+
+  <!-- ============================================================== CHAT OVERLAY -->
+  <div class="chat" id="chat" role="dialog" aria-modal="true" aria-labelledby="chat-title" hidden>
+
+    <div class="chat__scrim" data-chat-close aria-hidden="true"></div>
+
+    <div class="chat__sheet">
+
+      <header class="chat__header">
+        <div class="chat__mosaic" aria-hidden="true"></div>
+
+        <div class="chat__header-bar">
+          <button class="chat__back" type="button" data-chat-close aria-label="Close chat">
+            <svg class="chat__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+              <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <div class="chat__header-actions">
+            <button class="chat__heart" type="button" data-chat-note aria-haspopup="dialog" aria-controls="chat-note" aria-label="A note from Jagath">
+              <svg class="chat__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 20.5s-7.5-4.7-7.5-9.8a4.2 4.2 0 0 1 7.5-2.6 4.2 4.2 0 0 1 7.5 2.6c0 5.1-7.5 9.8-7.5 9.8z"
+                      fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <button class="chat__new" type="button" data-chat-new>
+              <span class="chat__new-plus" aria-hidden="true">+</span>New
+            </button>
+          </div>
+        </div>
+
+        <div class="chat__identity">
+          <picture class="chat__avatar">
+            <source type="image/webp" srcset="assets/spheres/img1.webp">
+            <img src="assets/spheres/img1.png" alt="" width="1873" height="2166" decoding="async">
+          </picture>
+
+          <div class="chat__identity-text">
+            <p class="chat__title" id="chat-title">JAXX</p>
+            <p class="chat__status">
+              <span class="chat__dot" aria-hidden="true"></span>Always around &middot; built for Iskk
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <div class="chat__thread" data-chat-thread tabindex="0" role="log" aria-live="polite" aria-label="Conversation with JAXX">
+        <div class="chat__greeting" data-chat-greeting>
+          <p class="chat__greeting-line" data-chat-greeting-line>Good evening, Iskk.</p>
+          <p class="chat__greeting-sub">He built me so you&rsquo;d never have to wait for an answer.</p>
+        </div>
+
+        <p class="chat__daymark"><span>Today</span></p>
+
+        <!-- bubbles are appended here by chat.js; the typing node stays last -->
+
+        <div class="typing" data-chat-typing hidden aria-hidden="true">
+          <span class="typing__dot"></span>
+          <span class="typing__dot"></span>
+          <span class="typing__dot"></span>
+        </div>
+      </div>
+
+      <button class="chat__jump" type="button" data-chat-jump hidden aria-label="Jump to the latest message">
+        <svg class="chat__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+          <path d="M12 5v14M12 19l-6-6M12 19l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div class="chat__foot">
+        <ul class="chat__chips" role="list" aria-label="Suggestions">
+          <li><button class="chip" type="button" data-chat-chip>Make me a deck</button></li>
+          <li><button class="chip" type="button" data-chat-chip>Pull data from a PDF</button></li>
+          <li><button class="chip" type="button" data-chat-chip>Tell me about Jagath</button></li>
+        </ul>
+
+        <form class="composer" data-chat-form autocomplete="off">
+          <label class="visually-hidden" for="chat-input">Message JAXX</label>
+          <textarea
+            class="composer__input"
+            id="chat-input"
+            name="message"
+            rows="1"
+            placeholder="Ask anything&hellip;"
+            data-chat-input
+            autocomplete="off"
+            enterkeyhint="send"
+          ></textarea>
+          <button class="composer__send" type="submit" data-chat-send aria-label="Send message" disabled>
+            <svg class="composer__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+              <path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================= NOTE FROM JAGATH -->
+  <!-- Layered above the chat. The one place on the site where he speaks directly,
+       in the first person, rather than through JAXX. -->
+  <div class="chat__note" id="chat-note" role="dialog" aria-modal="true" aria-labelledby="chat-note-title" hidden>
+
+    <div class="chat__note-scrim" data-chat-note-close aria-hidden="true"></div>
+
+    <div class="chat__note-card" tabindex="-1">
+      <button class="chat__note-close" type="button" data-chat-note-close aria-label="Close the note">
+        <svg class="chat__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <p class="chat__note-eyebrow">A note from Jagath</p>
+
+      <h2 class="chat__note-title" id="chat-note-title">I wanted you to have something.</h2>
+
+      <div class="chat__note-body">
+        <p>I&rsquo;m not very good at saying things out loud. So I stayed up and built you this instead.</p>
+        <p>It makes decks. It pulls numbers out of PDFs. It answers questions at 2am without complaining. None of that is really the point.</p>
+        <p>The point is that there is now a thing in the world that exists only because of you. It has one user. It is never going to have another.</p>
+        <p>If you&rsquo;re reading this late &mdash; go to sleep. I&rsquo;ll still be here tomorrow.</p>
+      </div>
+
+      <p class="chat__note-sign">&mdash; J</p>
+    </div>
+  </div>
+
+</body>
+</html>

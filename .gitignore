@@ -1,0 +1,13 @@
+.DS_Store
+node_modules/
+.vercel/
+*.log
+
+# design source — never ship these
+*.pdf
+
+# local build inputs — styles.css and main.js are the shipped, assembled output
+src/
+build.sh
+CONTRACT.md
+CONTRACT-v2.md
